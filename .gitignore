@@ -17,4 +17,4 @@ __pycache__/
 Thumbs.db
 
 # IDE settings
-.vscode/
+.vscode/app/app_backup.py
