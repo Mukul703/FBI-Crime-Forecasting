@@ -5,6 +5,7 @@ import pandas as pd
 import streamlit as st
 import plotly.express as px
 import plotly.graph_objects as go
+import os
 
 from sklearn.metrics import (
     mean_absolute_error,
@@ -18,7 +19,7 @@ from xgboost import XGBRegressor
 import google.generativeai as genai
 
 # Gemini API Configuration
-genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
+genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 
 # Gemini Insight Generation
 def generate_gemini_insight(prompt):
