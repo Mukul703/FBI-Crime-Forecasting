@@ -1,20 +1,63 @@
-# Virtual environment
+# ==============================
+# Virtual Environment
+# ==============================
+
 venv/
 .venv/
+env/
 
-# Python cache
+# ==============================
+# Python Cache
+# ==============================
+
 __pycache__/
 *.py[cod]
+*$py.class
 
-# Jupyter Notebook checkpoints
+# ==============================
+# Jupyter Notebook
+# ==============================
+
 .ipynb_checkpoints/
 
-# Environment variables
-.env
+# ==============================
+# Streamlit Secrets
+# ==============================
 
-# Operating system files
+.streamlit/secrets.toml
+
+# ==============================
+# Environment Variables
+# ==============================
+
+.env
+.env.*
+
+# ==============================
+# Operating System Files
+# ==============================
+
 .DS_Store
 Thumbs.db
 
-# IDE settings
-.vscode/app/app_backup.py
+# ==============================
+# IDE Files
+# ==============================
+
+.vscode/*
+!.vscode/settings.json
+
+# ==============================
+# Large Raw Data
+# ==============================
+
+data/raw/*
+!data/raw/.gitkeep
+
+# ==============================
+# Temporary Files
+# ==============================
+
+*.log
+*.tmp
+*.temp
