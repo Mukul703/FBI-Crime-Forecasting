@@ -264,7 +264,7 @@ The deployed dashboard provides:
 - Project and model context
 
 ### Forecast
-![Forecast](docs/screenshots/Forecast.png)
+![Forecast](docs/screenshots/Forcast.png)
 - Selectable forecast horizon
 - Recursive multi-month forecasts
 - Historical context + forecast visualization
