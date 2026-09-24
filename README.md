@@ -14,7 +14,7 @@
 ## Live Demo
 
 **AWS Elastic Beanstalk:**  
-[Open the deployed dashboard](http://FBI-Crime-Forecasting-env.eba-c3wbafq.eu-north-1.elasticbeanstalk.com)
+http://fbi-crime-forecasting-env.eba-c3wbafnq.eu-north-1.elasticbeanstalk.com/
 
 **GitHub Repository:**  
 [github.com/Mukul703/FBI-Crime-Forecasting](https://github.com/Mukul703/FBI-Crime-Forecasting)
