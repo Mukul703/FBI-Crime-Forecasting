@@ -257,12 +257,14 @@ SHAP feature importance describes model behaviour; it should not be interpreted 
 The deployed dashboard provides:
 
 ### Overview
+![FBI Crime Forecasting Dashboard - Overview](docs/screenshots/Overview.png)
 - Historical monthly crime summary
 - Latest available month and crime count
 - Historical trend visualization
 - Project and model context
 
 ### Forecast
+![Monthly Crime Forecast](docs/screenshots/Forecast.png)
 - Selectable forecast horizon
 - Recursive multi-month forecasts
 - Historical context + forecast visualization
@@ -274,16 +276,19 @@ The deployed dashboard provides:
 > The displayed prediction intervals are empirical intervals calibrated from validation errors. They are **not formal statistical confidence intervals** and do not guarantee coverage.
 
 ### Historical Trends
+![Historical Crime Trends](docs/screenshots/Historical_Trends.png)
 - Historical monthly crime-volume analysis
 - Interactive trend visualization
 
 ### Model Performance
+![Model Performance](docs/screenshots/Model_Performance.png)
 - MAE, RMSE, and R² metrics
 - Walk-forward validation results
 - Naive baseline comparison
 - Model evaluation context
 
 ### Methodology
+![Forecasting Methodology](docs/screenshots/Methodology.png)
 - Data preparation
 - Feature engineering
 - Forecasting methodology
