@@ -271,6 +271,19 @@ VALIDATION_METRICS = {
     ),
 }
 
+# Naive baseline MAE
+historical_monthly = historical_data.copy()
+historical_monthly.index = historical_monthly.index.to_period("M")
+
+validation_periods = validation_data["Date"].dt.to_period("M")
+previous_month_periods = validation_periods - 1
+
+baseline_predictions = previous_month_periods.map(historical_monthly)
+
+baseline_mae = (
+    validation_data["Actual"] - baseline_predictions
+).abs().mean()
+
 # Prediction Interval Calibration
 validation_errors = (
     validation_data["Actual"] - validation_data["Predicted"]
@@ -912,8 +925,9 @@ with tab_forecast:
     st.subheader("🤖 Gemini AI Insights")
 
     st.caption(
-        "Generate a natural-language explanation of the selected forecast."
+        "Generate a structured five-section interpretation of the selected forecast."
     )
+
 
     if st.button("✨ Generate AI Insights", key="gemini_insight_button"):
 
@@ -934,6 +948,7 @@ a concise, evidence-based briefing for stakeholders who
 monitor monthly crime volume and plan operational capacity.
 
 Analyze the provided XGBoost forecast and historical data.
+
 Your insights must be specific, numerically accurate, and
 directly relevant to stakeholder decision-support.
 
@@ -1034,6 +1049,117 @@ Naive Baseline MAE: 153.97
             """,
             unsafe_allow_html=True,
         )
+
+
+# --------------------------------------------------------
+# Ask Gemini - Targeted Analytical Question
+# --------------------------------------------------------
+
+st.subheader("💬 Ask Gemini")
+
+st.caption(
+    "Ask a specific question about the selected forecast, "
+    "historical data, or model performance."
+)
+
+question = st.text_area(
+    "Your question",
+    placeholder="e.g., Which month has the highest predicted crime count?",
+    height=90,
+    key="gemini_question_input"
+)
+
+if st.button("💬 Ask Gemini", key="gemini_question_button"):
+
+    if not question.strip():
+        st.warning("Please enter a question first.")
+    else:
+        question_prompt = f"""
+You are a data analyst helping a stakeholder interpret a
+monthly crime forecasting dashboard.
+
+Answer the user's specific question directly and concisely.
+
+IMPORTANT RULES:
+- Use ONLY the forecast, historical data, and model-performance
+  information supplied below.
+- Do not use the five-section forecast briefing format.
+- Do not create numbered sections unless they are necessary
+  to answer the question.
+- Include relevant numerical evidence when available.
+- Do not invent causes, external factors, crime locations,
+  crime categories, or operational recommendations.
+- Do not claim that a forecast is a confirmed future observation.
+- If the supplied information cannot answer the question,
+  clearly say that the available data is insufficient.
+- Keep the answer focused on the user's question.
+
+USER QUESTION:
+{question}
+
+================ FORECAST DATA ================
+
+Forecast period:
+{forecast_start.strftime("%B %Y")} to {forecast_end.strftime("%B %Y")}
+
+Monthly forecast values:
+{forecast_values.tolist()}
+
+Average forecast:
+{average_forecast:.2f}
+
+Forecast range:
+{forecast_range:.2f}
+
+Forecast direction:
+{forecast_direction}
+
+Highest predicted month:
+{highest_forecast["Forecast Month"].strftime("%B %Y")}
+
+Highest predicted count:
+{int(highest_forecast["Predicted Crime Count"]):,}
+
+Lowest predicted month:
+{lowest_forecast["Forecast Month"].strftime("%B %Y")}
+
+Lowest predicted count:
+{int(lowest_forecast["Predicted Crime Count"]):,}
+
+================ HISTORICAL DATA ================
+
+Recent historical monthly data:
+{historical_data}
+
+================ MODEL PERFORMANCE ================
+
+Model:
+XGBoost Regressor
+
+MAE:
+{VALIDATION_METRICS["MAE"]:.2f}
+
+RMSE:
+{VALIDATION_METRICS["RMSE"]:.2f}
+
+R²:
+{VALIDATION_METRICS["R2"]:.4f}
+
+Naive Baseline MAE:
+{baseline_mae:.2f}
+"""
+
+        with st.spinner("Generating answer..."):
+            try:
+                answer = generate_gemini_insight(question_prompt)
+
+                st.success("Answer generated successfully!")
+                st.markdown(answer)
+
+            except Exception as error:
+                st.error("Unable to generate Gemini answer.")
+                st.exception(error)
+
     # --------------------------------------------------------
     # Decision Support Section
     # --------------------------------------------------------
@@ -1277,34 +1403,6 @@ with tab_performance:
         "The naive baseline uses the previous month's actual "
         "crime count as the prediction."
     )
-
-    historical_monthly = historical_data.copy()
-
-    historical_monthly.index = (
-        historical_monthly.index.to_period("M")
-    )
-
-    validation_periods = (
-        validation_data["Date"].dt.to_period("M")
-    )
-
-    previous_month_periods = (
-        validation_periods - 1
-    )
-
-    validation_data["Baseline"] = (
-        previous_month_periods.map(historical_monthly)
-    )
-
-    validation_data["Baseline"] = pd.to_numeric(
-        validation_data["Baseline"],
-        errors="coerce"
-    )
-
-    baseline_mae = (
-        validation_data["Actual"]
-        - validation_data["Baseline"]
-    ).abs().mean()
 
     xgb_mae = (
         validation_data["Actual"]
