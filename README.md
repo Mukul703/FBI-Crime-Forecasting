@@ -370,7 +370,13 @@ FBI-Crime-Forecasting/
 │   ├── processed/
 │   │   └── xgb_walk_forward_validation.csv
 │   └── raw/
-│
+├── docs/
+│   └── screenshots/
+│       ├── Forecast.png
+│       ├── Historical_Trends.png
+│       ├── Methodology.png
+│       ├── Model_Performance.png
+│       └── Overview.png
 ├── models/
 │   ├── crime_forecasting_deployment_bundle.pkl
 │   ├── final_xgb_crime_forecasting_model.joblib
