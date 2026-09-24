@@ -264,7 +264,7 @@ The deployed dashboard provides:
 - Project and model context
 
 ### Forecast
-![Monthly Crime Forecast](docs/screenshots/Forecast.png)
+![Forecast](docs/screenshots/Forecast.png)
 - Selectable forecast horizon
 - Recursive multi-month forecasts
 - Historical context + forecast visualization
